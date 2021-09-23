@@ -1103,6 +1103,12 @@ class NodeRtmpSession {
       return;
     }
 
+    if (this.config.rtmp.play_disabled){
+      Logger.log(`[rtmp play] Disabled. id=${this.id} streamPath=${this.playStreamPath}  streamId=${this.playStreamId} sign=${this.playArgs.sign}`);
+      this.sendStatusMessage(this.playStreamId, 'error', 'Disabled', 'RTMP Play disabled.');
+      return;
+    }
+
     if (this.config.auth && this.config.auth.play && !this.isLocal) {
       let results = NodeCoreUtils.verifyAuth(this.playArgs.sign, this.playStreamPath, this.config.auth.secret);
       if (!results) {
